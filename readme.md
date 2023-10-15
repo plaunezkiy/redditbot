@@ -5,10 +5,12 @@
 </div>
 
 # RedditBot - Video Generator
+If you're like me and are addicted to short videos, have you ever wondered how on earth are there so many of them?
+Well, I tried to answer this question and, in short, you can automate the process. (it's very easy!)
 
-RedditBot - is a service that allows the user to fill out a form
-specifying the reddit post, relevant comments and a background video from
-the provided catalog. The form is then converted into a video project that can
+RedditBot - is a service that allows the user to generate a video
+that reads out reddit post, relevant comments over a background video from
+the provided catalog. The data is inputed through a form and is then converted into a video project that can
 track the progress of creation and produces a *Voiced Over* video that is ready to be uploaded.
 
 The idea is very simple:
