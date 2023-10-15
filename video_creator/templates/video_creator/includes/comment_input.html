@@ -1,0 +1,36 @@
+{% comment %} {% load static %} {% endcomment %} {% comment %}
+<script src="{% static 'js/commentInput.js' %}"></script>
+{% endcomment %}
+<div x-data="{ fields: [ {url: ''} ] }">
+  <label for="title" class="form-label">Comments</label>
+  <div class="d-flex flex-column gap-2">
+    <template x-for="(field, index) in fields" :key="index">
+      <div class="d-flex gap-2">
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          x-on:click="fields.splice(index, 1)"
+        >
+          <i class="bi bi-trash"></i>
+        </button>
+        <input
+          x-model="field.url"
+          type="text"
+          name="commentUrl"
+          placeholder="https://reddit.com/r/post/comment/"
+          class="form-control"
+        />
+      </div>
+    </template>
+  </div>
+
+  <div class="mt-2">
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      x-on:click="fields.push({url: ''})"
+    >
+      + Add comment
+    </button>
+  </div>
+</div>

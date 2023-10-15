@@ -1,0 +1,41 @@
+{% extends "video_creator/base.html" %} {% block content %}
+<form action="{% url 'create-video' %}" method="post">
+  {% csrf_token%}
+  <div class="d-flex flex-column gap-4">
+    {% comment %} card {% endcomment %}
+    <div class="card p-2 d-flex flex-column gap-2">
+      <h2>Create a new video</h2>
+      {% comment %} title {% endcomment %}
+      <div class="">
+        <label for="title" class="form-label">Video Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          placeholder="Video #1"
+          class="form-control"
+        />
+      </div>
+      {% comment %} url {% endcomment %}
+      <div class="">
+        <label for="title" class="form-label">Post URL</label>
+        <input
+          type="text"
+          id="url"
+          name="url"
+          placeholder="https://reddit.com/r/post/"
+          class="form-control"
+        />
+      </div>
+      {% include 'video_creator/includes/comment_input.html'%}
+    </div>
+    <div class="card p-2">
+      <h2>Base Clip</h2>
+      {% include 'video_creator/includes/base_clip_selector.html' %}
+    </div>
+    <div>
+      <button type="submit" class="btn btn-success fs-3">Create</button>
+    </div>
+  </div>
+</form>
+{% endblock%}

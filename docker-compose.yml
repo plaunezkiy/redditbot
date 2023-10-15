@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  web:
+    restart: always
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - redditbot:/usr/src/app
+    env_file: .env
+    command: /usr/local/bin/gunicorn redditbot.wsgi:application -w 2 -b :8000
+
+volumes:
+  redditbot:

@@ -1,0 +1,14 @@
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<div id="content_embedding">
+  <p>123</p>
+  {{ embed|safe }}
+</div>
+<button id="button">Save</button>
+<script>
+  let button = document.getElementById("button");
+  button.addEventListener("click", function () {
+    html2canvas(document.body).then(function (canvas) {
+      document.body.appendChild(canvas);
+    });
+  });
+</script>

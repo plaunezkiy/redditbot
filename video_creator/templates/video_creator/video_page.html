@@ -1,0 +1,260 @@
+{% extends 'video_creator/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="w-100 h-100 d-flex flex-column gap-8" x-foo x-data="{
+    init() {
+        data = {{data}};
+    }
+    }">
+
+    <div x-data="controls">
+        <!-- Overlay -->
+        {% comment %} <div 
+            class="overflow-auto" 
+            style="background-color: rgba(0,0,0,0.5)" 
+            x-show="modalOpen" 
+            :class="{ 'position-absolute inset-0 z-10 d-flex align-items-center justify-content-center': modalOpen }">
+            <!--Dialog-->
+            <div 
+                id="modalDialog"
+                class="bg-white w-75 md:max-w-md mx-auto rounded shadow-lg py-4 text-left px-6"
+                x-show="modalOpen" 
+                @click.away="modalOpen = false"
+            >
+
+                <!--Title-->
+                <div class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold">Screenshot</p>
+                    <div class="cursor-pointer z-50" @click="modalOpen = false">
+                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- content -->
+                <div id="modelDialogContent" class="border rounded-lg my-4 flex justify-center items-center">
+                    <!-- <div x-html="props.preview"></div> -->
+                </div>
+
+                <!--Footer-->
+                <div class="flex justify-end pt-2">
+                    <button class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2" @click="alert('Additional Action');">Action</button>
+                    <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400" @click="showPreview = false">Close</button>
+                </div>
+
+
+            </div>
+            <!--/Dialog -->
+        </div><!-- /Overlay --> {% endcomment %}
+
+        <template x-for="control in controls.videoControls" :key="control.name">
+            <div class="card d-flex flex-column">
+                <div class="d-flex items-center p-3">
+                    <p class="font-bold text-2xl" x-text="control.name"></p>
+                    <i
+                    class="ml-auto fa-solid text-3xl fa-square-check text-green-600"
+                    {% comment %} :class="' : 'fa-square-xmark text-red-600 '" {% endcomment %}
+                    >
+                </i>
+                </div>
+                <div class="text-lg font-semibold flex mt-1">
+                    <div class="w-full flex flex-col divide-y">
+                        <div 
+                            class="py-2 px-4 flex items-center"
+                            :class="control.attrs.value ? 'hover:bg-green-100' : 'hover:bg-red-100'"
+                            x-data="{ showPreview: false }"
+                            >
+                            <p class="" x-text="control.attrs.name"></p>
+                            <div class="ml-auto flex gap-3">
+                                <i 
+                                    class="fa-regular fa-image hover:cursor-pointer hover:text-slate-500"
+                                    {% comment %} x-show="control.attrs.value" {% endcomment %}
+                                    {% comment %} x-on:click="control.attrs.setPreview(control.attrs.preview)" {% endcomment %}
+                                    >
+                                </i>
+                                <i 
+                                class="fa-solid fa-rotate-right text-indigo-600 hover:cursor-pointer hover:text-indigo-400"
+                                x-on:click="control.attrs.reload(control.attrs.value)"
+                                >
+                                </i>
+                                <i 
+                                class="fa-solid"
+                                {% comment %} :class="control.attrs.value ? 'fa-square-check text-green-600' : 'fa-square-xmark text-red-600'"> {% endcomment %}>
+                                </i>
+                            </div>
+                        </div>
+
+                        <div 
+                        class="py-2 px-4 flex items-center"
+                        :class="data.post.text ? 'hover:bg-green-100' : 'hover:bg-red-100'">
+                            <p class="">Text: <span x-text="videoControls"></span></p>
+                            <div class="ml-auto flex gap-3">
+                                <i class="fa-regular fa-image hover:cursor-pointer hover:text-slate-500" x-show="data.post.text"></i>
+                                <i class="fa-solid fa-rotate-right text-indigo-600 hover:cursor-pointer hover:text-indigo-400"
+                                class="fa-solid">
+                                </i>
+                                <i 
+                                class="fa-solid" 
+                                {% comment %} :class="data.post.screenshot ? 'fa-square-check text-green-600' : 'fa-square-xmark text-red-600'" {% endcomment %}
+                                >
+                                </i>
+                            </div>
+                        </div>
+                        
+                        <div 
+                        class="py-2 px-4 flex items-center"
+                        :class="data.post.screenshot ? 'hover:bg-green-100' : 'hover:bg-red-100'"
+                        x-data="{ showPreview: false }"
+                        >
+                            <p class="">Screenshot:</p>
+                            <div class="ml-auto flex gap-3">
+                                <i 
+                                    class="fa-regular fa-image hover:cursor-pointer hover:text-slate-500" 
+                                    x-show="data.post.text"
+                                    x-on:click="showPreview = ! showPreview"
+                                    >
+                                </i>
+                                <i class="fa-solid fa-rotate-right text-indigo-600 hover:cursor-pointer hover:text-indigo-400"></i>
+                                <i 
+                                class="fa-solid"
+                                {% comment %} :class="data.post.screenshot ? 'fa-square-check text-green-600' : 'fa-square-xmark text-red-600'" {% endcomment %}
+                                >
+                            </i>
+                            </div>
+                        </div>
+        
+                        <div class="py-2 px-4 flex items-center hover:bg-green-100">
+                            <p class="">Audio:</p>
+                            <div class="ml-auto flex gap-3">
+                                <i class="fa-regular fa-image hover:cursor-pointer hover:text-slate-500" x-show="data.post.text"></i>
+                                <i class="fa-solid fa-rotate-right text-indigo-600 hover:cursor-pointer hover:text-indigo-400"></i>
+                                <i 
+                                class="fa-solid"
+                                {% comment %} :class="data.post.screenshot ? 'fa-square-check text-green-600' : 'fa-square-xmark text-red-600'" {% endcomment %}
+                                >
+                            </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <div class="border rounded-lg shadow flex flex-col divide-y">
+        <div class="flex items-center p-3">
+            <p class="font-bold text-2xl">Post</p>
+            <i 
+            class="ml-auto fa-solid text-3xl"
+            :class="(!data.post.text && data.post.screenshot && data.post.audio) ? 'fa-square-check text-green-600' : 'fa-square-xmark text-red-600 '"
+            >
+        </i>
+        </div>
+        <div class="text-lg font-semibold flex mt-1">
+            <div class="w-full flex flex-col divide-y">
+                <div 
+                class="py-2 px-4 flex items-center"
+                :class="data.post.text ? 'hover:bg-green-100' : 'hover:bg-red-100'">
+                    <p class="">Text: <span x-text="videoControls"></span></p>
+                    <div class="ml-auto flex gap-3">
+                        <i class="fa-regular fa-image hover:cursor-pointer hover:text-slate-500" x-show="data.post.text"></i>
+                        <i class="fa-solid fa-rotate-right text-indigo-600 hover:cursor-pointer hover:text-indigo-400"
+                        class="fa-solid">
+                        </i>
+                        <i 
+                        class="fa-solid" 
+                        {% comment %} :class="data.post.screenshot ? 'fa-square-check text-green-600' : 'fa-square-xmark text-red-600'" {% endcomment %}
+                        >
+                        </i>
+                    </div>
+                </div>
+                
+                <div 
+                class="py-2 px-4 flex items-center"
+                :class="data.post.screenshot ? 'hover:bg-green-100' : 'hover:bg-red-100'"
+                x-data="{ showPreview: false }"
+                >
+                    <p class="">Screenshot:</p>
+                    <div class="ml-auto flex gap-3">
+                        <i 
+                            class="fa-regular fa-image hover:cursor-pointer hover:text-slate-500" 
+                            x-show="data.post.text"
+                            x-on:click="showPreview = ! showPreview"
+                            >
+                        </i>
+                        <i class="fa-solid fa-rotate-right text-indigo-600 hover:cursor-pointer hover:text-indigo-400"></i>
+                        <i 
+                        class="fa-solid"
+                        {% comment %} :class="data.post.screenshot ? 'fa-square-check text-green-600' : 'fa-square-xmark text-red-600'" {% endcomment %}
+                        >
+                    </i>
+                    </div>
+                    <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showPreview" :class="{ 'absolute inset-0 z-10 flex items-center justify-center': showPreview }">
+                        <!--Dialog-->
+                        <div class="bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg py-4 text-left px-6" x-show="showPreview" @click.away="showPreview = false">
+            
+                            <!--Title-->
+                            <div class="flex justify-between items-center pb-3">
+                                <p class="text-2xl font-bold">Screenshot</p>
+                                <div class="cursor-pointer z-50" @click="showPreview = false">
+                                    <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+            
+                            <!-- content -->
+                            <div class="border rounded-lg my-4">
+                                <img :src="data.post.screenshot" />
+                            </div>
+            
+                            <!--Footer-->
+                            <div class="flex justify-end pt-2">
+                                <button class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2" @click="alert('Additional Action');">Action</button>
+                                <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400" @click="showPreview = false">Close</button>
+                            </div>
+            
+            
+                        </div>
+                        <!--/Dialog -->
+                    </div><!-- /Overlay -->
+                </div>
+
+                <div class="py-2 px-4 flex items-center hover:bg-green-100">
+                    <p class="">Audio:</p>
+                    <div class="ml-auto flex gap-3">
+                        <i class="fa-regular fa-image hover:cursor-pointer hover:text-slate-500" x-show="data.post.text"></i>
+                        <i class="fa-solid fa-rotate-right text-indigo-600 hover:cursor-pointer hover:text-indigo-400"></i>
+                        <i 
+                        class="fa-solid"
+                        :class="data.post.screenshot ? 'fa-square-check text-green-600' : 'fa-square-xmark text-red-600'">
+                    </i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="border rounded p-3">
+        <p class="font-bold text-2xl">Base Video</p>
+        <ul>
+            <li>
+                Text: {{ video.post.text }}
+            </li>
+            <li>
+                Screenshot
+            </li>
+            <li>
+                Audio
+            </li>
+        </ul>
+    </div>
+    <div>
+        Comments
+    </div>
+    <button>
+        Compile
+    </button>
+</div>
+</div>
+{% endblock content %}

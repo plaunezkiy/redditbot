@@ -1,0 +1,34 @@
+<div class="container">
+  <div
+    class="row row-cols-3 gap-4 justify-content-start"
+    x-data="{ 
+    selectedPreview: null,
+    previews: [
+    {id: 1, title: 'Parkour Wood', preview_url: 'https://i.tlauncher.org/images/a-minecraft-parkour-map-but-4.png'},
+    {id: 2, title: 'Satisfying Slicing', preview_url: 'https://m.media-amazon.com/images/I/71+jQGAdopL.png'},
+    ] }"
+  >
+    <input type="text" hidden :value="selectedPreview.id" name="baseClipId" />
+    {% comment %} preview card {% endcomment %}
+    <template x-for="preview in previews" :key="preview.id">
+      <div
+        class="col card p-0 overflow-hidden"
+        style="width: 15rem; cursor: pointer"
+        x-on:click="selectedPreview = preview"
+      >
+        <img :src="preview.preview_url" alt="" class="card-img-top w-100" />
+        <div
+          class="card-body"
+          :class="selectedPreview && (selectedPreview.id === preview.id) && 'bg-success'"
+        >
+          <h4
+            class="card-title"
+            x-text="preview.title"
+            :class="selectedPreview && (selectedPreview.id === preview.id) && 'text-white' "
+          ></h4>
+        </div>
+      </div>
+    </template>
+    {% comment %} {% endcomment %}
+  </div>
+</div>
