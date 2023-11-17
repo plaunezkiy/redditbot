@@ -24,7 +24,8 @@ The idea is very simple:
 [Demo Result](https://drive.google.com/file/d/1P3B2Jan5bwJUkvgY5Jjt-r0EWfMPSLAt/view?usp=sharing)
 
 ## Stack
-* Python Django 3.1
+* Python 3.9
+* Django 3.1
 * Docker
 * Bootstrap
 
